@@ -2,10 +2,10 @@
 
 
 ## for activate your virtualenv use below codes:
-for windows:
-venv\Scripts\activate
-for linux:
-source venv/bin/activate
+#### for windows:
+###### venv\Scripts\activate
+#### for linux:
+##### source venv/bin/activate
 
 
 
