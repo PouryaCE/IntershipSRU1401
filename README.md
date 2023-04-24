@@ -5,9 +5,7 @@
 #### for windows:
 ###### venv\Scripts\activate
 #### for linux:
-##### source venv/bin/activate
-
-
+###### source venv/bin/activate
 
 ## for install packages use below code:
 
