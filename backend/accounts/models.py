@@ -49,3 +49,31 @@ class User(AbstractBaseUser):
     @property
     def is_staff(self):
         return self.is_admin
+    
+
+
+class Role(models.Model):
+    title = models.CharField(max_length=200)
+    content = models.TextField()
+
+
+class Operation(models.Model):
+    title = models.CharField(max_length=200)
+    content = models.TextField()
+
+
+class RoleOperation(models.Model):
+    role = models.ForeignKey(Role, on_delete=models.CASCADE, related_name="role")
+    operation = models.ForeignKey(Operation, on_delete=models.CASCADE, related_name="operation")
+
+
+class ExtraUserInfo(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user')
+    role = models.ForeignKey(Role, on_delete=models.CASCADE, related_name='role')
+    student_id = models.CharField(max_length=10, null=True, blank=True)
+    field = models.CharField(max_length=200, null=True, blank=True)
+    city_name = models.CharField(max_length=200, null=True, blank=True)
+    proffesor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='proffesor', null=True, blank=True)
+    teacher = models.ForeignKey(User, on_delete=models.CASCADE, related_name='teacher', null=True, blank=True)
+    region = models.PositiveSmallIntegerField(null=True, blank=True)
+    job_title = models.CharField(max_length=200, null=True, blank=True)
