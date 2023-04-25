@@ -1,13 +1,22 @@
 # IntershipSRU1401
+### for run backend server use these steps
+#### step 1:
+###### you should install virtualenv first or use venv package in python
 
-## in the first step you should create a virtualenv with below command:
-###### python -m venv vnev or virtualenv venv
+#### step 2:
+### create a [virtualenv] with below command:
+
+'''bash python -m venv venv or virtualenv venv'''
+
+#### step 3:
 ## for activate your virtualenv use below codes:
 #### for windows:
-###### venv\Scripts\activate
+
+'''bash venv\Scripts\activate'''
 #### for linux:
-###### source venv/bin/activate
 
+'''bash source venv/bin/activate'''
+
+#### step 4:
 ## for install packages use below code:
-
-python -m pip install requirments.txt
+'''bash python -m pip install requirments.txt'''
