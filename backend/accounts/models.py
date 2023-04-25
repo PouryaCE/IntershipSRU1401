@@ -77,3 +77,14 @@ class ExtraUserInfo(models.Model):
     teacher = models.ForeignKey(User, on_delete=models.CASCADE, related_name='teacher', null=True, blank=True)
     region = models.PositiveSmallIntegerField(null=True, blank=True)
     job_title = models.CharField(max_length=200, null=True, blank=True)
+
+
+
+class StudentActivity(models.Model):
+    title = models.CharField(max_length=200)
+    slug = models.SlugField(max_length=200)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    content = models.TextField()
+    student = models.ForeignKey(User, on_delete=models.CASCADE, related_name="student")
+    is_done =  models.BooleanField(default=False)
