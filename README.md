@@ -6,17 +6,21 @@
 #### step 2:
 ### create a [virtualenv] with below command:
 
-'''bash python -m venv venv or virtualenv venv'''
+```bash
+python -m venv venv or virtualenv venv
+```
 
 #### step 3:
 ## for activate your virtualenv use below codes:
 #### for windows:
+```bash
+venv\Scripts\activate
+```
 
-'''bash venv\Scripts\activate'''
 #### for linux:
-
-'''bash source venv/bin/activate'''
-
+```bash
+source venv/bin/activate
+```
 #### step 4:
 ## for install packages use below code:
 '''bash python -m pip install requirments.txt'''
