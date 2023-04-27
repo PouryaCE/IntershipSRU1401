@@ -3,7 +3,7 @@ from django.contrib import admin
 from .forms import UserChangeForm, UserCreationForm
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import Group
-from .models import User, Role, RoleOperation, StudentActivity, Operation, ExtraUserInfo
+from .models import User, Role, RoleOperation, StudentActivity, Operation, Teacher, OfficeManager, School, Professor, Student
 # Register your models here.
 
 
@@ -34,7 +34,12 @@ admin.site.register(User,UserAdmin)
 admin.site.register(Role)
 admin.site.register(Operation)
 admin.site.register(RoleOperation)
-admin.site.register(ExtraUserInfo)
+admin.site.register(Teacher)
+admin.site.register(OfficeManager)
+admin.site.register(School)
+admin.site.register(Student)
+admin.site.register(Professor)
+
 
 
 

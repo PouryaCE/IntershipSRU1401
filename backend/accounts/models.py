@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 from .managers import UserManager
+
+
 # Create your models here.
 
 class User(AbstractBaseUser):
@@ -22,34 +24,29 @@ class User(AbstractBaseUser):
     updated_date = models.DateTimeField(auto_now=True)
     avatar = models.ImageField(null=True, blank=True)
     is_admin = models.BooleanField(default=False)
-
+    personal_code = models.CharField(max_length=8, null=True, blank=True)
 
     USERNAME_FIELD = "username"
     REQUIRED_FIELDS = ["phone_number", "email"]
-
 
     objects = UserManager()
 
     def __str__(self):
         return f'{self.first_name}-{self.last_name}-{self.national_code}'
 
-    
     def has_perm(self, perm, obj=None):
         "Does the user have a specific permission?"
         # Simplest possible answer: Yes, always
         return True
-
 
     def has_module_perms(self, app_label):
         "Does the user have permissions to view the app `app_label`?"
         # Simplest possible answer: Yes, always
         return True
 
-
     @property
     def is_staff(self):
         return self.is_admin
-    
 
 
 class Role(models.Model):
@@ -67,17 +64,35 @@ class RoleOperation(models.Model):
     operation = models.ForeignKey(Operation, on_delete=models.CASCADE, related_name="operation")
 
 
-class ExtraUserInfo(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_to_info')
-    role = models.ForeignKey(Role, on_delete=models.CASCADE, related_name='role_to_info')
-    student_id = models.CharField(max_length=10, null=True, blank=True)
-    field = models.CharField(max_length=200, null=True, blank=True)
-    city_name = models.CharField(max_length=200, null=True, blank=True)
-    proffesor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='proffesor', null=True, blank=True)
-    teacher = models.ForeignKey(User, on_delete=models.CASCADE, related_name='teacher', null=True, blank=True)
-    region = models.PositiveSmallIntegerField(null=True, blank=True)
-    job_title = models.CharField(max_length=200, null=True, blank=True)
+class Teacher(User):
+    field = models.CharField(max_length=200)
+    slug = models.SlugField(max_length=200)
+    Level_of_education = models.CharField(max_length=200)
 
+
+class OfficeManager(User):
+    region = models.PositiveSmallIntegerField()
+
+
+class School(models.Model):
+    title_choices = (
+        ('k', 'kar-danesh'),
+        ('f', 'fani'),
+        ('d', 'dabirestan'),
+        ('n', None)
+    )
+    name = models.CharField(max_length=200)
+    slug = models.SlugField(max_length=200)
+    established_year = models.DateField()
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    city = models.CharField(max_length=200)
+    region = models.PositiveSmallIntegerField()
+    capacity = models.PositiveSmallIntegerField()
+    manager = models.OneToOneField(User, on_delete=models.CASCADE)
+    title = models.CharField(choices=title_choices, default='n', max_length=100)
+    teacher = models.ManyToManyField(Teacher, related_name='teacher_to_school')
+    office_manager = models.ForeignKey(OfficeManager, on_delete=models.CASCADE, related_name='office_to_school')
 
 
 class StudentActivity(models.Model):
@@ -85,6 +100,24 @@ class StudentActivity(models.Model):
     slug = models.SlugField(max_length=200)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    content = models.TextField()
-    student = models.ForeignKey(User, on_delete=models.CASCADE, related_name="student")
-    is_done =  models.BooleanField(default=False)
+    content = models.FileField()
+    student = models.ForeignKey(User, on_delete=models.CASCADE, related_name="student_to_activity")
+    is_done = models.BooleanField(default=False)
+
+
+class Professor(User):
+    professor_id = models.CharField(max_length=10)
+    is_science_committee = models.BooleanField(default=False)
+
+
+class Student(User):
+    student_id = models.CharField(max_length=10)
+    field = models.CharField(max_length=200)
+    professor2 = models.ForeignKey(Professor, on_delete=models.CASCADE, related_name='professor_to_student')
+    school2 = models.ForeignKey(School, on_delete=models.CASCADE, related_name='school_to_student')
+    teacher2 = models.ForeignKey(Teacher, on_delete=models.CASCADE, related_name='teacher_to_student')
+
+
+
+
+
