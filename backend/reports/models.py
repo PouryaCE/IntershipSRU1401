@@ -1,7 +1,7 @@
 from django.db import models
 from accounts.models import Student
 # Create your models here.
-
+from accounts.models import User
 
 class Report (models.Model):
     title = models.CharField(max_length=100)
@@ -27,3 +27,8 @@ class ReportStudent (models.Model):
 class Summery (models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name="summery_to_student")
     content = models.CharField(max_length=100)
+
+
+class Request (models.Model):
+    text = models.TextField()
+    manager = models.ForeignKey (User,on_delete=models.CASCADE,related_name="manager_to_request")

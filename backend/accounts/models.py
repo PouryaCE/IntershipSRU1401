@@ -32,7 +32,7 @@ class User(AbstractBaseUser):
     objects = UserManager()
 
     def __str__(self):
-        return f'{self.first_name}-{self.last_name}-{self.national_code}'
+        return f'{self.first_name}-{self.last_name}-{self.national_code} - {self.id}'
 
     def has_perm(self, perm, obj=None):
         "Does the user have a specific permission?"
@@ -88,11 +88,15 @@ class School(models.Model):
     updated = models.DateTimeField(auto_now=True)
     city = models.CharField(max_length=200)
     region = models.PositiveSmallIntegerField()
-    capacity = models.PositiveSmallIntegerField()
+    capacity = models.PositiveSmallIntegerField(default=0)
     manager = models.OneToOneField(User, on_delete=models.CASCADE)
     title = models.CharField(choices=title_choices, default='n', max_length=100)
     teacher = models.ManyToManyField(Teacher, related_name='teacher_to_school')
     office_manager = models.ForeignKey(OfficeManager, on_delete=models.CASCADE, related_name='office_to_school')
+
+
+    def __str__(self):
+        return f'{self.name} - {self.capacity}'
 
 
 class StudentActivity(models.Model):
