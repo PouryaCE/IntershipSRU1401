@@ -1,10 +1,10 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from accounts.models import School, OfficeManager, Student
-from .serializers import SchoolSerializer
+from .serializers import SchoolSerializer, StudentSerializer
 from rest_framework import status
 # Create your views here.
-from reports.models import Request
+from reports.models import Request, Request_Office
 from django.contrib import messages
 from django.urls import reverse_lazy
 
@@ -54,3 +54,13 @@ class AddInterShip(APIView):
                 student.save()
                 return Response({"message": "success"})
         return Response({"message": "error"})
+
+
+class ShowRequest(APIView):
+    def get(self,request,office_id):
+        office_manager = OfficeManager.objects.get(pk=office_id)
+        request_office = Request_Office.objects.filter(office_manager=office_manager)
+        students = [request.student for request in request_office]
+        ser_data = StudentSerializer(instance=students, many=True).data
+        return Response(ser_data, status=status.HTTP_200_OK)
+

@@ -1,5 +1,5 @@
 from django.db import models
-from accounts.models import Student
+from accounts.models import Student, OfficeManager
 # Create your models here.
 from accounts.models import User
 
@@ -32,4 +32,9 @@ class Summery (models.Model):
 
 class Request (models.Model):
     text = models.TextField()
-    manager = models.ForeignKey (User,on_delete=models.CASCADE,related_name="manager_to_request")
+    manager = models.ForeignKey(User, on_delete=models.CASCADE, related_name="office_request_school")
+
+
+class Request_Office(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name="student_request_office")
+    office_manager = models.ForeignKey(OfficeManager, on_delete=models.CASCADE, related_name="office_request_student")
