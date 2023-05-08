@@ -3,6 +3,7 @@ from accounts.models import Student
 # Create your models here.
 from accounts.models import User
 
+
 class Report (models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField(blank=True, null=True)

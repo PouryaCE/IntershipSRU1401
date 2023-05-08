@@ -96,7 +96,7 @@ class School(models.Model):
 
 
     def __str__(self):
-        return f'{self.name} - {self.capacity}'
+        return f'{self.name} - {self.capacity}-{self.id}'
 
 
 class StudentActivity(models.Model):
@@ -118,8 +118,8 @@ class Student(User):
     student_id = models.CharField(max_length=10)
     field = models.CharField(max_length=200)
     professor2 = models.ForeignKey(Professor, on_delete=models.CASCADE, related_name='professor_to_student')
-    school2 = models.ForeignKey(School, on_delete=models.CASCADE, related_name='school_to_student')
-    teacher2 = models.ForeignKey(Teacher, on_delete=models.CASCADE, related_name='teacher_to_student')
+    school2 = models.ForeignKey(School, on_delete=models.CASCADE, related_name='school_to_student', null=True, blank=True)
+    teacher2 = models.ForeignKey(Teacher, on_delete=models.CASCADE, related_name='teacher_to_student', null=True, blank=True)
 
 
 
