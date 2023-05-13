@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from accounts.models import School, OfficeManager, Student
-from .serializers import SchoolSerializer, StudentSerializer
+from .serializers import SchoolSerializer, StudentSerializer, ManagerSerializer
 from rest_framework import status
 # Create your views here.
 from reports.models import Request, Request_Office
@@ -46,15 +46,19 @@ class AddInterShip(APIView):
     def post(self, request, office_id, student_id, school_id):
         student = Student.objects.get(pk=student_id)
         school = School.objects.get(pk=school_id)
-        if school.capacity > 0:
-            if student.school2 is None:
-                school.capacity = school.capacity - 1
-                school.save()
-                student.school2 = school
-                student.save()
-                return Response({"message": "success"})
+        office_manager = OfficeManager.objects.get(pk=office_id)
+        if school.capacity > 0 and school.office_manager == office_manager and student.school2 is None:
+            school.capacity = school.capacity - 1
+            school.save()
+            student.school2 = school
+            student.save()
+            request_student = Request_Office.objects.filter(office_manager=office_manager, student=student)
+            request_student.delete()
+            return Response({"message": "success"})
         return Response({"message": "error"})
 
+
+#the request from student to office manager
 
 class ShowRequest(APIView):
     def get(self,request,office_id):
@@ -62,5 +66,16 @@ class ShowRequest(APIView):
         request_office = Request_Office.objects.filter(office_manager=office_manager)
         students = [request.student for request in request_office]
         ser_data = StudentSerializer(instance=students, many=True).data
+        return Response(ser_data, status=status.HTTP_200_OK)
+
+
+#the request from office manager to school manager
+
+class MyRequest(APIView):
+    def get(self, request, office_id):
+        office_manager = OfficeManager.objects.get(pk=office_id)
+        school_request = Request.objects.filter(school__office_manager=office_manager)
+        manager = [request.school.manager for request in school_request]
+        ser_data = ManagerSerializer(instance=manager, many=True).data
         return Response(ser_data, status=status.HTTP_200_OK)
 

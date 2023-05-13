@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from accounts.models import School, Student
+from accounts.models import School, Student, User
 
 
 class SchoolSerializer(serializers.ModelSerializer):
@@ -13,3 +13,8 @@ class StudentSerializer(serializers.ModelSerializer):
         model = Student
         fields = ('username', 'phone_number', 'gender', 'student_id', 'field')
 
+
+class ManagerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('username', 'phone_number', 'gender')
