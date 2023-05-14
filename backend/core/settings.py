@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'reports.apps.ReportsConfig',
     'OfficialManager.apps.OfficialmanagerConfig',
+    'Manager.apps.ManagerConfig',
 ]
 
 MIDDLEWARE = [
