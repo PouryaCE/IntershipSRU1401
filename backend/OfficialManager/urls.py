@@ -9,5 +9,6 @@ urlpatterns = [
     path('add-intership/<int:office_id>/<int:student_id>/', AddInterShip.as_view(), name='inter_get'),
     path('add-intership/<int:office_id>/<int:student_id>/<int:school_id>/', AddInterShip.as_view(), name='inter-post'),
     path('student-request/<int:office_id>/', ShowRequest.as_view(), name='student_request'),
-    path('my-request/<int:office_id>/', MyRequest.as_view(), name='school_request')
+    path('my-request/<int:office_id>/', MyRequest.as_view(), name='school_request'),
+
 ]
