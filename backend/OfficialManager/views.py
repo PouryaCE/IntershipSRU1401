@@ -52,7 +52,7 @@ class AddInterShip(APIView):
             school.save()
             student.school2 = school
             student.save()
-            request_student = Request_Office.objects.filter(office_manager=office_manager, student=student)
+            request_student = Request_Office.objects.filter(student=student)
             request_student.delete()
             return Response({"message": "success"})
         return Response({"message": "error"})
