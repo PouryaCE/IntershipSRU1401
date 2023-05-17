@@ -18,7 +18,7 @@ class AcceptRequest(APIView):
         capacity = request.POST.get('capacity')
         school = School.objects.get(pk=school_id)
         # and request.user == school.manager in bayad add beshe
-        if school.capacity == 0 and request.user == school.manager:
+        if school.capacity == 0 and request.user == school.manager and capacity is not None:
             school.capacity = capacity
             school.save()
             return Response({'message': 'success'})
