@@ -28,7 +28,7 @@ class AddSchool(APIView):
         school = School.objects.get(pk=school_id)
         manager = school.manager
         text = "Do you want to have student as inter ship?"
-        if Request.objects.filter(manager=manager, text=text).exists():
+        if Request.objects.filter(manager=manager, text=text).exists() and school.capacity > 0:
             messages.error(request, "request has been send to the manager before", 'error')
             return Response({"message": "error"})
         Request.objects.create(manager=manager, text=text)
